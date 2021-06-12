@@ -1,0 +1,57 @@
+<ng-container [formGroup]="timeDetails" >
+  <div class="form-group">
+    <label for="days">Weekdays:</label>
+    <div class="weekDays-selector" [class.is-invalid]="timeDetails.touched && timeDetails.errors?.notSelected" formArrayName="weekdays">
+      <ng-container *ngFor="let day of weekDaysFormArray.controls; let i=index;">
+        <input type="checkbox" id="weekday-{{weekdays[i].name}}" class="weekday"  [formControlName]="i" />
+        <label for="weekday-{{weekdays[i].name}}">{{weekdays[i].name | slice:0:1}}</label>
+      </ng-container>
+    </div>
+    <div class="invalid-feedback" *ngIf="timeDetails.touched && timeDetails.errors?.notSelected">At least one checkbox is required to check</div>
+  </div>
+  <div class="form-group">
+    <label for="days">Set time:</label> <br>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-secondary active">
+        <input type="radio" name="setTime" id="timer_yes" value="yes" formControlName="setTime" autocomplete="off"> Yes
+      </label>
+      <label class="btn btn-secondary">
+        <input type="radio" name="setTime" id="timer_no" value="no" formControlName="setTime" autocomplete="off"> No
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-inline" [class.is-invalid]="(timeDetails.controls.startTime.touched && timeDetails.controls.startTime.errors?.required)
+    || (timeDetails.controls.endTime.touched && timeDetails.controls.endTime.errors?.required) || (timeDetails.touched && timeDetails.errors?.timeErr)">
+      <div class="form-group">
+        <label for="startTime" class="sr-only">Start time</label>
+        <input name="startTime" formControlName="startTime" type="time" class="form-control" id="startTime" placeholder="00:00"
+        [class.is-invalid]="timeDetails.controls.startTime.touched && timeDetails.controls.startTime.errors?.required">
+      </div>
+      <div class="form-group mx-sm-3">
+        <label for="endTime" class="sr-only">End time</label>
+        <input name="endTime" formControlName="endTime" type="time" class="form-control" id="endTime" placeholder="00:00"
+        [class.is-invalid]="timeDetails.controls.endTime.touched && timeDetails.controls.endTime.errors?.required">
+      </div>
+    </div>
+    <span class="invalid-feedback" *ngIf="(timeDetails.controls.startTime.touched && timeDetails.controls.startTime.errors?.required)
+    || (timeDetails.controls.endTime.touched && timeDetails.controls.endTime.errors?.required && !timeDetails.errors?.timeErr) ">Start/End time is required</span>
+    <span class="invalid-feedback" *ngIf="timeDetails.touched && timeDetails.errors?.timeErr">End time should not be equal or less than start time</span>
+  </div>
+  <div class="form-group">
+    <label for="totalDays">Total Days:</label>
+    <app-counter-input [class.is-invalid]="timeDetails.controls.days.touched && timeDetails.controls.days.errors?.required"
+     [min]="0" [max]="10" formControlName="days"></app-counter-input>
+    <span class="invalid-feedback" *ngIf="timeDetails.controls.days.touched && timeDetails.controls.days.errors?.required">Day is required</span>
+    <div class="d-flex align-items-center mt-4">
+      <div class="div mr-5">
+        <span class="text-muted">Run this ads until</span>
+      </div>
+      <div class="div">
+         {{ getExpiryTime  }}
+      </div>
+    </div>
+  </div> 
+</ng-container>
+
+

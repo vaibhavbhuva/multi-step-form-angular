@@ -1,0 +1,11 @@
+<div class="d-flex align-items-center">
+  <div class="div mr-5">
+    <span>{{value || 0}} Days</span>
+  </div>
+  <div class="div">
+    <div class="btn-group" role="group" aria-label="Counter">
+      <button type="button" class="btn btn-secondary mr-1" [disabled]="disabled" (click)="decrease()"><b>-</b></button>
+      <button type="button" class="btn btn-secondary" [disabled]="disabled" (click)="increase()"><b>+</b></button>
+    </div>
+  </div>
+</div>

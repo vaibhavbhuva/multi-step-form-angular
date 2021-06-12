@@ -1,0 +1,20 @@
+<ng-container [formGroup]="avtarDetails">
+  <div class="form-group" *ngIf="!imageURL">
+    <label for="avatar">Upload Image:</label>
+    <input (change)="fileChangeEvent($event)" type="file" class="form-control" id="avatar" name="avatar"  required 
+    [class.is-invalid]="avtarDetails.controls.avatar.touched && avtarDetails.controls.avatar.errors?.required" >
+    <span class="invalid-feedback" *ngIf="avtarDetails.controls.avatar.touched && avtarDetails.controls.avatar.errors?.required">
+      {{imageError}}
+    </span>
+  </div>
+  <div class="img-space" *ngIf="imageURL && imageURL !== ''">
+    <div class="card mb-5" style="width: 18rem;">
+      <img [src]="imageURL" class="card-img-top" />
+      <div class="card-body">
+        <button  class="btn btn-danger btn-sm" (click)="removeImage($event);">Remove Image</button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+
